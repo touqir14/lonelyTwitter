@@ -36,22 +36,22 @@ public class LonelyTwitterActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		super.onCreate(savedInstanceState); // view
+		setContentView(R.layout.main); //view
 
-		bodyText = (EditText) findViewById(R.id.body);
-		Button saveButton = (Button) findViewById(R.id.save);
-		Button clearButton = (Button) findViewById(R.id.clear);
-		oldTweetsList = (ListView) findViewById(R.id.oldTweetsList);
+		bodyText = (EditText) findViewById(R.id.body); //view
+		Button saveButton = (Button) findViewById(R.id.save); //view
+		Button clearButton = (Button) findViewById(R.id.clear); //view
+		oldTweetsList = (ListView) findViewById(R.id.oldTweetsList); //view
 
 		saveButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				setResult(RESULT_OK);
-				String text = bodyText.getText().toString();
-				tweets.add(new NormalTweet(text));
-				adapter.notifyDataSetChanged();
-				saveInFile();
+				setResult(RESULT_OK); // view
+				String text = bodyText.getText().toString(); // controller
+				tweets.add(new NormalTweet(text)); //controller
+				adapter.notifyDataSetChanged(); // view
+				saveInFile(); //model
 
 			}
 
@@ -61,10 +61,10 @@ public class LonelyTwitterActivity extends Activity {
 		clearButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				setResult(RESULT_OK);
-				tweets.clear();
-				adapter.notifyDataSetChanged();
-				saveInFile();
+				setResult(RESULT_OK); // view
+				tweets.clear(); //controller
+				adapter.notifyDataSetChanged(); //view
+				saveInFile(); // model
 			}
 
 		});
@@ -73,13 +73,14 @@ public class LonelyTwitterActivity extends Activity {
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
-		super.onStart();
-		loadFromFile();
+		super.onStart(); //view
+		loadFromFile(); //model
 		adapter = new ArrayAdapter<Tweet>(this,
-				R.layout.list_item, tweets);
-		oldTweetsList.setAdapter(adapter);
+				R.layout.list_item, tweets); // View
+		oldTweetsList.setAdapter(adapter); // view
 	}
 
+	/////// This method is part of model
 	private void loadFromFile() {
 		//ArrayList<Tweet> tweets = new ArrayList<Tweet>();
 		try {
@@ -99,7 +100,8 @@ public class LonelyTwitterActivity extends Activity {
 		}
 
 	}
-	
+
+	/////// This method is part of model
 	private void saveInFile() {
 		try {
 			FileOutputStream fos = openFileOutput(FILENAME,
