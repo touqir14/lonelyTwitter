@@ -60,4 +60,8 @@ public abstract class Tweet extends Object implements Tweetable, MyObservable {
         }
     }
 
+    public void editText(String text){
+        this.text=text;
+    }
+
 }

@@ -14,8 +14,10 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,9 +30,21 @@ public class LonelyTwitterActivity extends Activity {
 
 	private static final String FILENAME = "file.sav";
 	private EditText bodyText;
+	private LonelyTwitterActivity activity= this;
+
+	public ListView getOldTweetsList() {
+		return oldTweetsList;
+	}
+
 	private ListView oldTweetsList;
+
+	public ArrayList<Tweet> getTweets() {
+		return tweets;
+	}
+
 	private ArrayList<Tweet> tweets = new ArrayList<Tweet>();
 	private ArrayAdapter<Tweet> adapter;
+	private Button saveButton;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -38,12 +52,10 @@ public class LonelyTwitterActivity extends Activity {
 
 		super.onCreate(savedInstanceState); // view
 		setContentView(R.layout.main); //view
-
 		bodyText = (EditText) findViewById(R.id.body); //view
-		Button saveButton = (Button) findViewById(R.id.save); //view
 		Button clearButton = (Button) findViewById(R.id.clear); //view
 		oldTweetsList = (ListView) findViewById(R.id.oldTweetsList); //view
-
+		setSaveButton();
 		saveButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
@@ -58,6 +70,14 @@ public class LonelyTwitterActivity extends Activity {
 
 		});
 
+		oldTweetsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Intent intent = new Intent(activity, EditTweetActivity.class);
+				intent.putExtra("sentTweet", tweets.get(position).toString());
+				startActivity(intent);
+			}
+		});
+
 		clearButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
@@ -69,6 +89,16 @@ public class LonelyTwitterActivity extends Activity {
 
 		});
 	}
+
+
+	public void setSaveButton(){
+		saveButton = (Button) findViewById(R.id.save); //view
+	}
+
+	public Button getSaveButton(){
+		return saveButton;
+	}
+
 
 	@Override
 	protected void onStart() {
@@ -122,6 +152,20 @@ public class LonelyTwitterActivity extends Activity {
 		}
 	}
 
+	public EditText getBodyText() {
+		return bodyText;
+	}
 
+	public void editTweet(int ID, String text) {
+
+	}
+
+	public ArrayAdapter<Tweet> getArrayAdapter(){
+		return adapter;
+	}
+
+	public void updateAdapter(){
+		adapter.notifyDataSetChanged();
+	}
 
 }
